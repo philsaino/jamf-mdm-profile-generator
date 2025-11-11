@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generatore MDM Profile Jamf</title>
+</head>
+<body>
+  <h2>Genera file mobileconfig per enroll Jamf</h2>
+  <form id="mdmForm">
+    <label>MDM Invitation ID:<br>
+      <input type="text" id="mdm_invitation_id" required>
+    </label><br><br>
+    <label>Jamf URL:<br>
+      <input type="url" id="jamf_url" placeholder="https://jamf.example.com" required>
+    </label><br><br>
+    <button type="submit">Genera file</button>
+  </form>
+
+  <script>
+    // Genera UUID v4 semplicemente lato client
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16).toUpperCase();
+      });
+    }
+
+    document.getElementById('mdmForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const mdmInvitationId = document.getElementById('mdm_invitation_id').value.trim();
+      const jamfUrl = document.getElementById('jamf_url').value.trim();
+      const uuid = generateUUID();
+
+      const content = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>PayloadUUID</key>
+    <string>${uuid}</string>
+    <key>PayloadOrganization</key>
+    <string>JAMF Software</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadIdentifier</key>
+    <string>${uuid}</string>
+    <key>PayloadDescription</key>
+    <string>MDM Profile for mobile device management</string>
+    <key>PayloadType</key>
+    <string>Profile Service</string>
+    <key>PayloadDisplayName</key>
+    <string>MDM Profile</string>
+    <key>PayloadContent</key>
+    <dict>
+      <key>Challenge</key>
+      <string>${mdmInvitationId}</string>
+      <key>URL</key>
+      <string>${jamfUrl}/enroll/profile</string>
+      <key>DeviceAttributes</key>
+      <array>
+        <string>UDID</string>
+        <string>PRODUCT</string>
+        <string>SERIAL</string>
+        <string>VERSION</string>
+        <string>DEVICE_NAME</string>
+        <string>COMPROMISED</string>
+      </array>
+    </dict>
+  </dict>
+</plist>`;
+
+      // Crea blob e link per il download
+      const blob = new Blob([content], {type: 'application/x-apple-aspen-config'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mdm_enroll.mobileconfig';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 0);
+    });
+  </script>
+</body>
+</html>
