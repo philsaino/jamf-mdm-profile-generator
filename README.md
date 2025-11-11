@@ -24,7 +24,8 @@ This repository contains a simple, single-page web application to generate Apple
 
 ## Usage
 
-1. Open the page in your browser (hosted on GitHub Pages or locally by opening `index.html`).
+1. Open the page in your browser at the hosted URL:  
+   [https://philsaino.github.io/jamf-mdm-profile-generator/](https://philsaino.github.io/jamf-mdm-profile-generator/)
 
 2. Fill in the MDM Invitation ID and Jamf URL fields.
 
@@ -37,6 +38,14 @@ This repository contains a simple, single-page web application to generate Apple
 - HTML5 and CSS3 for layout and styling.
 
 - JavaScript (vanilla) for UUID generation and file creation.
+
+## Customization
+
+You can easily modify:
+
+- The styling in `index.html` to match your branding.
+
+- The XML template to adjust profile parameters.
 
 ## License
 
