@@ -1,23 +1,92 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MDM Profile Generator for JAMF</title>
+  <title>Jamf MDM Profile Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #d7dde6, #637d9e, #f4f6f8);
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 40px;
+      max-width: 400px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+    h2 {
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1a2d4d;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 20px;
+      color: #3e4a61;
+    }
+    input[type="text"],
+    input[type="url"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #bccad6;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="url"]:focus {
+      border-color: #4267b2;
+      outline: none;
+      box-shadow: 0 0 6px rgba(66, 103, 178, 0.4);
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      background: #4267b2;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #315a8e;
+    }
+  </style>
 </head>
 <body>
-  <h2>Generate mobileconfig file for Jamf enroll</h2>
-  <form id="mdmForm">
-    <label>MDM Invitation ID:<br>
-      <input type="text" id="mdm_invitation_id" required>
-    </label><br><br>
-    <label>Jamf URL:<br>
-      <input type="url" id="jamf_url" placeholder="https://jamf.example.com" required>
-    </label><br><br>
-    <button type="submit">Genera file</button>
-  </form>
+  <div class="container">
+    <h2>Generate Jamf MDM Enrollment Profile</h2>
+    <form id="mdmForm">
+      <label for="mdm_invitation_id">MDM Invitation ID:</label>
+      <input type="text" id="mdm_invitation_id" required autocomplete="off" />
+      
+      <label for="jamf_url">Jamf URL:</label>
+      <input type="url" id="jamf_url" placeholder="https://jamf.example.com" required autocomplete="off" />
+      
+      <button type="submit">Generate Profile</button>
+    </form>
+  </div>
 
   <script>
-    // Genera UUID v4 semplicemente lato client
     function generateUUID() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -69,7 +138,6 @@
   </dict>
 </plist>`;
 
-      // Crea blob e link per il download
       const blob = new Blob([content], {type: 'application/x-apple-aspen-config'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
