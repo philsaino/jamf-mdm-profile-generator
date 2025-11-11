@@ -33,6 +33,22 @@ This repository contains a simple, single-page web application to generate Apple
 
 4. Use the downloaded file to enroll your macOS device into Jamf MDM.
 
+## How to Retrieve the MDM Invitation ID in Jamf
+
+The MDM Invitation ID is a unique token associated with your Jamf enrollment invitation. To find it:
+
+1. Log in to your Jamf Pro Admin Dashboard.
+
+2. Navigate to **Computers** > **Enrollment Invitations**.
+
+3. Select the relevant invitation or create a new one.
+
+4. The Invitation ID is visible in the invitation details.
+
+5. Copy this Invitation ID to use in the profile generator form.
+
+If you do not see this, refer to your Jamf Pro documentation or administrator, as the location may vary by Jamf Pro version.
+
 ## Tech Stack
 
 - HTML5 and CSS3 for layout and styling.
